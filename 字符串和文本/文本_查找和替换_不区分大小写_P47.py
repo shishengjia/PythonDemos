@@ -15,6 +15,7 @@ print(re.sub('python', 'snake', text, flags=re.IGNORECASE)) # UPPER snake, lower
 写一个支撑函数解决上面问题
 """
 
+
 def matchcase(word):
     def replace(m):
         text = m.group()
