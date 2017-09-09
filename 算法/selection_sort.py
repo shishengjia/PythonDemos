@@ -3,22 +3,16 @@
 # 选择排序
 
 
-def find_smallest(arr):
-    smallest = arr[0]
-    smallest_index = 0
-    for i in range(1, len(arr)):
-        if arr[i] < smallest:
-            smallest = arr[i]
-            smallest_index = i
-    return smallest_index
-
-
 def selection_sort(arr):
-    new_arr = []
     for i in range(0, len(arr)):
-        index = find_smallest(arr)
-        new_arr.append(arr.pop(index))
-    return new_arr
+        min_index = i
+        for j in range(i+1, len(arr)):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        temp = arr[i]
+        arr[i] = arr[min_index]
+        arr[min_index] = temp
+    return arr
 
 
-# print(selection_sort([1, 11, 3, 5, 22, 77]))
+print(selection_sort([11, 6, 11, 5, 7, 66]))
