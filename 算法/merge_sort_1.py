@@ -58,6 +58,7 @@ def merge_sort(arr, n):
     # 注意这里使用的列表的长度减1，即最后一个元素的下表
     __merge_sort(arr, 0, n-1)
 
+
 list = [1, 44, 11, 77, 88]
 merge_sort(list, len(list))
 print(list)
