@@ -1,4 +1,5 @@
 # coding:utf-8
+from sort_test_helper import TestHelper
 
 
 def __merge(arr, l, mid, r):
@@ -59,7 +60,7 @@ def merge_sort(arr, n):
     __merge_sort(arr, 0, n-1)
 
 
-list = [1, 44, 11, 77, 88]
-merge_sort(list, len(list))
-print(list)
+t = TestHelper()
+arr = t.generate_random_array(100000, 100, 1000)
+t.test_sort('test', merge_sort, arr=arr, n=len(arr))
 

@@ -1,3 +1,4 @@
+# coding: utf-8
 from socketserver import (TCPServer as TCP,
     StreamRequestHandler as SRH)
 from time import ctime
