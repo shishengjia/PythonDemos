@@ -47,7 +47,6 @@ class TestHelper:
         sort_def(arr, n)
         end_time = time.time()
         print('{:.6f} s'.format(end_time - start_time))
-        self.print_array(arr)
 
     def print_array(self, arr):
         for x in arr:

@@ -16,6 +16,23 @@ class MaxHeap:
         self.__data = [None]
         self.__count = 0
 
+    def heapify(self, arr):
+        """
+        不使用 insert 和 __shift_up 函数
+        优化建堆的过程，以提升整体堆性能
+        由于堆是一颗完全二叉树，所以有下面这样一个性质：
+            第一个非叶子节点所在的位置为 节点数//2
+        每个叶子节点相当于一个最大堆，所以只要从第一个非叶子节点开始，调用 __shift_down 方法，则可使以该节点为根节点的子树满足最大堆的定义
+        """
+        for i in range(len(arr)):
+            self.__data.append(arr[i])
+        # 节点数
+        self.__count = len(arr)
+
+        # 从下往上，从第一个非叶子节点开始
+        for j in reversed(range(1, self.__count//2 + 1)):
+            self.__shift_down(j)
+
     def __len__(self):
         """
         返回堆的大小
@@ -74,25 +91,26 @@ class MaxHeap:
         移除根节点，即最大的元素（优先级最大）
         """
         # 将最后一个元素填补到根节点，计数 -1
-        print(self.__data[1], end=' ')
+        item = self.__data[1]
         self.__data[self.__count], self.__data[1] = self.__data[1], self.__data[self.__count]
         self.__count -= 1
         # 然后调整新的根节点的位置,再维持最大堆的定义
         self.__shift_down(1)
+        return item
 
     def print_data(self):
         for i in range(1, self.__count+1):
             print(self.__data[i], end=' ')
 
 
-heap = MaxHeap()
-random.seed(int(time.time()))
-for i in range(15):
-    j = random.randint(1, 100)
-    heap.insert(j)
-print()
-heap.print_data()
-print()
-for i in range(1, len(heap)+1):
-    heap.remove()
+# heap = MaxHeap()
+# random.seed(int(time.time()))
+# for i in range(15):
+#     j = random.randint(1, 100)
+#     heap.insert(j)
+# print()
+# heap.print_data()
+# print()
+# for i in range(1, len(heap)+1):
+#     print(heap.remove(), end=' ')
 
