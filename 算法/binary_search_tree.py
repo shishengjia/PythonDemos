@@ -15,6 +15,9 @@ class Node:
 
 
 class BST:
+    """
+    二叉搜索树
+    """
     def __init__(self):
         # 根节点
         self.root = None
@@ -25,6 +28,9 @@ class BST:
         return self.count
 
     def is_empty(self):
+        """
+        二叉树是否为空
+        """
         return self.count == 0
 
     def __insert(self, node, key, value):
@@ -196,8 +202,9 @@ class BST:
 
             # 如果该节点左右孩子都存在的话
 
-            # 找到该节点的右子树中的key最小的节点，使他成为继任节点，代替当前的节点(这样由于二叉搜索时的性质，能够保证现在该节点的key大于所有
-            # 左子树里的节点的key，小于所有右子树的节点里的key)
+            # 找到该节点的右子树中的key最小的节点，使他成为继任节点，代替当前的节点(这样能够保证现在该节点的key大于所有
+            # 左子树里的节点的key，小于所有右子树的节点里的key,继续维持二叉搜索树的性质)
+            # 当然还有另外一种实现，将左子树中key最大的节点当做继任节点也是可以的
             successor_node = self.__mini_node(node.right_node)
 
             # 继任节点的右孩子则为右子树删除最小节点后返回的节点(即根节点)
@@ -210,6 +217,9 @@ class BST:
             return successor_node
 
     def remove_node(self, key):
+        """
+        删除一个节点
+        """
         self.root = self.__remove_node(self.root, key)
 
 
@@ -223,7 +233,6 @@ class BST:
 #         else:
 #             bst.insert(x, 1)
 #     print(bst.search('God').value)
-
 bst = BST()
 bst.insert(50, 123)
 bst.insert(10, 123)
@@ -240,11 +249,3 @@ bst.remove_node(60)
 print()
 bst.level_order_traversal(bst.root)
 print(bst.count)
-
-
-
-
-
-
-
-
