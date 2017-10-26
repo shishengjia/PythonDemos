@@ -1,36 +1,71 @@
+# encoding: utf-8
+"""
+@author: shishengjia
+@time: 2017/10/22 下午6:58
+"""
 import matplotlib.pyplot as plt
-import numpy as np
-"""
-In 2004-2005, Geniant assisted JHA with the development of a pilot project to construct the 
-frame- work for its SOA implementation.
-"""
-fig, ax = plt.subplots()
-
-x = []
-y = []
-
-x_1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 11, 12, 13, 14, 15, 16, 17, 17, 18, 19, 20, 21, 22, 23, 24]
-y_1 = [1, 2, 4, 8, 12, 13, 14, 15, 16, 17, 18, 19, 9, 10, 11, 12, 13, 14, 15, 1, 2, 4, 7, 8, 9, 10, 11]
-
-with open('temp.txt') as f:
-    reader = f.readlines()
-    for item in reader:
-        data = item.split()
-        x.append(int(data[0]))
-        y.append(float(data[1]))
 
 
-plt.plot(x_1, y_1, marker='o', linestyle='solid')
-plt.yticks([i for i in range(0, 21)])
-plt.xticks([i for i in range(1, 25)])
-plt.ylabel('Stock Price($)')
-plt.xlabel('Year')
-plt.grid()
-# plt.axis([1990, 2016, 0.0000, 1.2000])
-plt.title('Year End Stock Prices Since 1990')
-# c = np.cos(2 * np.pi * t)
-# plt.rcParams['lines.linewidth'] = '3'
-# plt.plot(t, c)
+class TCPReno:
+    """
+    td: triple duplicate acknowledgements
+    to: timeout
+    """
 
-plt.show()
+    def __init__(self, ssthresh, td_rounds, to_rounds, total_rounds):
+        self.ssthresh = ssthresh
+        self.td_rounds = td_rounds
+        self.to_rounds = to_rounds
+        self.total_rounds = total_rounds
+        self.x = [1]
+        self.y = [1]
+
+    def draw(self):
+        plt.plot(self.x, self.y, marker='o', linestyle='solid')
+        plt.yticks([i for i in range(0, 21)])
+        plt.xticks([i for i in range(1, self.total_rounds+1)])
+        plt.grid()
+        plt.show()
+
+    def calculate(self):
+        for i in range(2, self.total_rounds+1):
+
+            self.x.append(i)
+
+            # triple duplicate acknowledgements
+            if i-1 in self.td_rounds:
+                self.ssthresh = self.y[-1] // 2
+                self.y.append(self.ssthresh)
+                continue
+
+            # timeout
+            if i-1 in self.to_rounds:
+                self.ssthresh = self.y[-1] // 2
+                self.y.append(1)
+                continue
+
+            if self.y[-1] < self.ssthresh:  # slow start
+                v = self.y[-1] * 2
+                if v <= self.ssthresh:
+                    self.y.append(v)
+                else:
+                    self.y.append(self.ssthresh)
+            else:  # congestion avoidance
+                v = self.y[-1] + 1
+                self.y.append(v)
+
+        return self.x, self.y
+
+    def print(self):
+        for i in range(len(self.x)):
+            print((self.x[i], self.y[i]))
+
+
+tcp = TCPReno(12, [11], [17], 24)
+tcp.calculate()
+tcp.print()
+tcp.draw()
+
+
+
 
